@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html ng-app="QuanLySinhVien">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript">
+	
+	</script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body ng-controller="TabController">
+	<h1><b>EzStudy</b></h1>
+	<div><ul>
+		<li ng-class="{ active: isSet(1) }">
+			<a href ng-click="setTab(1)" >Sinh vien</a>
+		</li>
+		<li >
+			<a href >Lop</a>
+		</li>
+	</ul>
+	</div>
+	<div ng-controller="DSSinhVien">
+
+	<div ng-show="isSet(1)">
+	
+	<div ng-controller="DSLop">
+		Name: <input type="text" name="" ng-model="searchName">
+		Age: <input type="number" name="" ng-model="searchAge">
+		Class:
+		<select ng-model="searchClass">
+			<optgroup ng-repeat="khoi in DSClass" label="{{khoi.name}}">
+				<option ng-repeat="lop in khoi.Class">
+				{{lop.name}}
+				</option>
+			</optgroup>
+		</select>
+		<!-- <select
+      ng-options="option.name group by option.type for option in DSClass.availableOptions track by option.id"
+      ng-model="DSClass.selectedOption"></select> -->
+		<!-- {{DSStudent}} -->
+		<!-- {{DSClass.selectedOption.name}} -->
+		<button ng-click="searchObj(searchName,searchAge,searchClass)">Search</button>
+		<button ng-click="loadAllStudent()">Load All Student</button>
+	</div>
+	<button ng-class="{ active: isSet(2) }"><a href ng-click="setTab(2)" >Add Student</a></button>
+	
+		 
+		<table>
+			<thead>
+				<tr >
+					<th>STT</th>
+					<th>Name</th>
+					<th>Age</th>
+					<th>Class</th>
+					<th colspan= "2">Edit or Remove</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="Student in DSStudent | filter :{'name':searchName,'age':searchAge,'lop':searchClass}">
+					<td>{{$index}}</td>
+					<td>{{Student.name}}</td>
+					<td>{{Student.age}}</td>
+					<td>{{Student.lop}}</td>
+					<td ng-class="{ active: isSet(3) }" ><a href ng-click="setTab(3);loadFormeditStudent(Student,$index)">Sua</a></td>
+					<td  ><a href ng-click="removeStudent(Student)">Xoa</a></td>
+					
+				</tr>
+		</table>	
+	
+	</div>
+
+	<div ng-show="isSet(2)" >
+		<h1><b>Add Student</b></h1>
+	<div >
+		<form ng-submit="addStudent(form)">
+			Name: <input type="text" name="" ng-model="form.name">
+			Age: <input type="number" name="" ng-model="form.age">
+			 
+		<div ng-controller="DSLop">
+			Class:
+		<select ng-model="form.lop">
+			<optgroup ng-repeat="khoi in DSClass" label="{{khoi.name}}">
+				
+				<option ng-repeat="lop in khoi.Class">
+				{{lop.name}}
+				</option>
+			</optgroup>
+		</select>
+		<!-- <select
+      ng-options="option.name group by option.type for option in DSClass.availableOptions track by option.id"
+      ng-model="form.lop"></select> -->
+		</div>
+		<input type="submit" name="" value="Add">
+		<br>
+		<!-- <input type="submit" name="" value="Xoa" ng-click="removeStudent(form)"> -->
+		</form>
+		<button ng-class="{ active: isSet(1) }"><a href ng-click=" setTab(1)">Back</a></button>
+		<!-- <button ng-click="addStudent()">Push</button> -->
+		<!-- {{DSStudent}} -->
+	</div>
+	</div>
+	<div ng-show="isSet(3)">
+		<h1><b>Edit student</b></h1>
+	<div ng-controller="DSLop">
+		<form ng-submit="editStudent(formEditStudent)">
+			Name: <input type="text" name="" ng-model="formEditStudent.name">
+			Age: <input type="text" name="" ng-model="formEditStudent.age">
+			<br>
+			Class: {{formEditStudent.lop}}
+			<!-- {{formEditStudent}} -->
+			<br>
+		Danh Sach Class: 	
+		<select ng-model="formEditStudent.lop" >
+			
+			<optgroup ng-repeat="khoi in DSClass" label="{{khoi.name}}">
+				
+				<option ng-repeat="lop in khoi.Class">
+				{{lop.name}}
+				</option>
+			</optgroup>
+			
+		</select>
+		<!-- <select
+      ng-options="option.name group by option.type for option in DSClass.availableOptions track by option.id"
+      ng-model="formEditStudent.lop"></select> -->
+		
+		<input type="submit" name="" value="Save">
+		<br>
+		<!-- <input type="submit" name="" value="Xoa" ng-click="removeStudent(form)"> -->
+		</form>
+		<button ng-class="{ active: isSet(1) }"><a href ng-click=" setTab(1)">Back</a></button>
+		<!-- <button ng-click="addStudent()">Push</button> -->
+		<!-- {{indexStudent}} -->
+		<!-- {{DSStudent}} -->
+	</div>
+	</div>
+	
+</div>
+</body>
+</html>
